@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Objects
+.vscode/
+sequential
+bruteforce00
