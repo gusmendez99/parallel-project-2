@@ -18,7 +18,7 @@ CC3069 class
 Compile
 
 ```console
-g++ -std=c++11 -DNDEBUG -g3 -O2 -Wall -Wextra -o sequential sequential.cpp -l:libcryptopp.a
+g++ -g3 -O2 -Wall -Wextra -o sequential sequential.cpp -l:libcryptopp.a
 ```
 
 Run it
@@ -27,6 +27,20 @@ Run it
 ./sequential
 ```
 
-### Parallel
+### Parallel (C++11 threads)
+
+Compile
+
+```console
+g++ -g3 -O2 -Wall -Wextra -o parallel parallel.cpp -l:libcryptopp.a
+```
+
+Run it
+
+```console
+./parallel
+```
+
+### Parallel MPI (with OpenMPI)
 
 [WIP]

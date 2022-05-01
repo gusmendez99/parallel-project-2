@@ -54,4 +54,5 @@ dkms.conf
 # Objects
 .vscode/
 sequential
+parallel
 bruteforce00

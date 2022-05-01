@@ -13,7 +13,7 @@
 //! A size of a CryptoPP::byte* data block holding both plaintext and ciphertext.
 #define MESSAGE_SIZE 1024
 //! Hard-coded message to encrypt. It is used to validate the decryption output in brute-force method.
-#define PLAIN_TEXT "In cryptography, a brute-force attack consists of an attacker submitting many passwords or passphrases with the hope of eventually guessing correctly."
+#define PLAIN_TEXT "A brute-force attack is a cryptanalytic attack that can be used to attempt to decrypt any encrypted data."
 #define PLAIN_TEXT_SEARCH "attack"
 
 std::mutex mutx;

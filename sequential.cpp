@@ -39,7 +39,7 @@ using CryptoPP::byte;
 #define STOP_SEARCH_COND 
 
 //! Hard-coded message to encrypt. It is used to validate the decryption output in brute-force method.
-const string PLAIN_TEXT = "In cryptography, a brute-force attack consists of an attacker submitting many passwords or passphrases with the hope of eventually guessing correctly.";
+const string PLAIN_TEXT = "A brute-force attack is a cryptanalytic attack that can be used to attempt to decrypt any encrypted data.";
 const string PLAIN_TEXT_SEARCH = "attack";
 
 
