@@ -10,6 +10,7 @@ CC3069 class
 - OpenMPI
 - Crypto++ (See [installation](https://www.cryptopp.com/wiki/Linux#apt-get))
 
+You can find the original **DES code** [here](https://cryptopp.com/wiki/TripleDES)
 
 ## Test and run 💻
 

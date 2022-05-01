@@ -36,10 +36,9 @@ using CryptoPP::byte;
 
 #define UPPER_LIMIT 255
 #define LOWER_LIMIT 0
-#define STOP_SEARCH_COND 
 
 //! Hard-coded message to encrypt. It is used to validate the decryption output in brute-force method.
-const string PLAIN_TEXT = "A brute-force attack is a cryptanalytic attack that can be used to attempt to decrypt any encrypted data.";
+const string PLAIN_TEXT = "a bf attack is a cryptanalytic attack that can be used to attempt to decrypt any encrypted data.";
 const string PLAIN_TEXT_SEARCH = "attack";
 
 
@@ -48,12 +47,19 @@ int main(int argc, char* argv[])
 	AutoSeededRandomPool prng;
 
 	SecByteBlock key(DES::DEFAULT_KEYLENGTH);
-	prng.GenerateBlock(key, key.size());
-	// Ir you dont want a PRNG, use this: 
-	// byte key[DES::KEYLENGTH] = {CHAR_MIN, CHAR_MIN, CHAR_MIN, CHAR_MIN, CHAR_MIN, CHAR_MIN, CHAR_MIN, CHAR_MIN};
+	// prng.GenerateBlock(key, key.size());
+	// If you dont want a PRNG, use this: 
+	for(int i = 0; i < 8; i++) {
+		key[i] = (byte) (i % 2) ? UPPER_LIMIT : LOWER_LIMIT;
+	};
+
 
 	byte iv[DES::BLOCKSIZE];
-	prng.GenerateBlock(iv, sizeof(iv));
+	// prng.GenerateBlock(iv, sizeof(iv));
+	// If you dont want a PRNG, use this: 
+	for(int i = 0; i < 8; i++) {
+		iv[i] = (byte) 0;
+	};
 
 	// Plain & Stop Search Condition
 	string cipher, encoded, candidate;
@@ -130,21 +136,21 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		for(int i = 0; i < 255; i++){
+		for(int i = LOWER_LIMIT; i < UPPER_LIMIT; i++){
 			key_bf[0] = (byte) i;
-			for(int j = 0; j < 255; j++){
+			for(int j = LOWER_LIMIT; j < UPPER_LIMIT; j++){
 				key_bf[1] = (byte) j;
-				for(int k = 0; k < 255; k++){
+				for(int k = LOWER_LIMIT; k < UPPER_LIMIT; k++){
 					key_bf[2] = (byte) k;
-					for(int l = 0; l < 255; l++){
+					for(int l = LOWER_LIMIT; l < UPPER_LIMIT; l++){
 						key_bf[3] = (byte) l;
-						for(int m = 0; m < 255; m++){
+						for(int m = LOWER_LIMIT; m < UPPER_LIMIT; m++){
 							key_bf[4] = (byte) m;
-							for(int n = 0; n < 255; n++){
+							for(int n = LOWER_LIMIT; n < UPPER_LIMIT; n++){
 								key_bf[5] = (byte) n;
-								for(int o = 0; o < 255; o++){
+								for(int o = LOWER_LIMIT; o < UPPER_LIMIT; o++){
 									key_bf[6] = (byte) o;
-									for(int p = 0; p < 255; p++){
+									for(int p = LOWER_LIMIT; p < UPPER_LIMIT; p++){
 										key_bf[7] = (byte) p;
 
 										CBC_Mode<DES>::Decryption d;
