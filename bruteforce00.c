@@ -1,6 +1,8 @@
 //bruteforce.c
 //nota: el key usado es bastante pequenio, cuando sea random speedup variara
 
+
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,8 +42,18 @@ void encrypt(long key, char *ciph, int len){
 }
 
 char search[] = " the ";
+/*
+* tryKey
+*     Parámetros: 
+* key: Llave que se probara para descifrar el texto 
+* ciph: Puntero al texto cifrado
+* len: Largo del texto cifrado
+* Funcionamiento: Está función recibe el texto cifrado y la llave para realizar el descifrado del texto luego de lo cual busca una palabra clave predefinida con el objetivo de determinar si se logró o no se logró descifrar el texto, Regresa el índice en el cual empieza la palabra clave o null si no se encuentra  
+*/
+
 int tryKey(long key, char *ciph, int len){
   char temp[len+1];
+  
   memcpy(temp, ciph, len);
   temp[len]=0;
   decrypt(key, temp, len);
@@ -98,3 +110,28 @@ int main(int argc, char *argv[]){ //char **argv
 
   MPI_Finalize();
 }
+
+
+
+
+// Descripción de funciones utlizadas dentro del código:
+
+/*
+* memcpy
+*     Parámetros:
+* dest: El puntero destino del arreglo donde el contenido será copiado
+* src: El puntero donde la data de origen se encuentra
+* n: La cantidad de bytes a ser copiada
+*     Funcionamiento:
+*     Copia n caracteres de una localidad de memoria src a una localidad diferente de memoria dest.
+*/
+
+
+/*
+
+* strstr
+*     Parámetros:
+* str: Puntero al string en el cual se desea buscar un substring 
+* target: Puntero al string que se quiere encontrar dentro del string 
+* Funcionamiento: Está función retorna un puntero a la posición en la cual se encuentra la primera letra de str dentro de target, si no se encuentra retorna un puntero a NULL.  
+*/
