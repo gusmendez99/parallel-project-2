@@ -8,6 +8,15 @@
 #include <unistd.h>
 #include <rpc/des_crypt.h>
 
+/*
+* Decrypt
+*    Parámetros:
+* key:  Llave para descifrar
+* ciph: Puntero al texto cifrado
+* len: Largo del texto a descifrar
+*     Funcionamiento: Esta función permite descifrar un texto cifrado con una llave. 
+*
+*/
 void decrypt(long key, char *ciph, int len){
   //set parity of key and do decrypt
   long k = 0;
