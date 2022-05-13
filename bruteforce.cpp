@@ -44,7 +44,7 @@ void encrypt(long key, char *ciph, int len){
   ecb_crypt((char *)&k, (char *) ciph, 16, DES_ENCRYPT);
 }
 
-char search[] = " the ";
+char search[] = "pulled";
 /*
 * tryKey
 *     Parámetros: 
@@ -63,7 +63,7 @@ int tryKey(long key, char *ciph, int len){
   return strstr((char *)temp, search) != NULL;
 }
 
-unsigned char cipher[] = {108, 245, 65, 63, 125, 200, 150, 66, 17, 170, 207, 170, 34, 31, 70, 215, 0};
+unsigned char cipher[] = {105, 80, 5, 211, 28, 89, 191, 207, 116, 142, 193, 34, 172, 155, 154, 215, 32, 97, 32, 109, 97, 110, 32, 112, 117, 116, 32, 97, 32, 103, 117, 110, 32, 97, 103, 97, 105, 110, 115, 116, 32, 104, 105, 115, 32, 104, 101, 97, 100, 32, 112, 117, 108, 108, 101, 100, 32, 109, 121, 32, 116, 114, 105, 103, 103, 101, 114, 0, 72, 12, 1, 0, };
 int main(int argc, char *argv[]){ //char **argv
   int N, id;
   long long upper = (1LL <<56); //upper bound DES keys 2^56
