@@ -7,41 +7,89 @@ CC3069 class
 ## Tools & Requirements 🔧
 
 - C++
-- OpenMPI
-- Crypto++ (See [installation](https://www.cryptopp.com/wiki/Linux#apt-get))
+- OpenMPI (and OpenMP)
+- RPC (DES utility inside library was deprecated... so, we had to use old OS ~ 2016)
+- 2 RPI 4 model B, running old Raspbian version (Jessie)
 
-You can find the original **DES code** [here](https://cryptopp.com/wiki/TripleDES)
+Code based on the examples of "Multicore and GPU Programming: An Integrated Approach", by Gerassimos Barlas
+
+`Barlas, G. (2014). Multicore and GPU Programming: An integrated approach. Elsevier.`
 
 ## Test and run 💻
 
-### Sequential
+### RPC initial tests
+#### Generate a new cipher text
 
 Compile
 
 ```console
-g++ -g3 -O2 -Wall -Wextra -o sequential sequential.cpp -l:libcryptopp.a
+g++ -fpermissive -std=c++11 -o encrypt encrypt.cpp
 ```
 
-Run it
+Run
 
 ```console
-./sequential
+./encrypt "PLAIN_TEXT_HERE" [2^56 key]
 ```
 
-### Parallel (C++11 threads)
+#### Test DES encrypt/decrypt from TXT file
 
 Compile
 
 ```console
-g++ -g3 -O2 -Wall -Wextra -o parallel parallel.cpp -l:libcryptopp.a
+g++ -o example example.cpp
 ```
 
-Run it
+Run
 
 ```console
-./parallel
+./example
 ```
 
-### Parallel MPI (with OpenMPI)
 
-[WIP]
+
+
+### Parallel
+
+#### Sequential (using N=1)
+
+Compile
+
+```console
+mpic++ -o bruteforce bruteforce.cpp
+```
+
+Run
+
+```console
+./mpirun -np 1 bruteforce
+```
+
+
+#### Parallel (v2)
+
+Compile
+
+```console
+mpic++ -fpermissive -o bruteforcev2 bruteforcev2.cpp
+```
+
+Run
+
+```console
+./mpirun -np N bruteforcev2
+```
+
+#### Parallel OMP (v3)
+
+Compile
+
+```console
+mpic++ -fopenmp -o bruteforce_omp bruteforce_omp.cpp
+```
+
+Run
+
+```console
+./mpirun -np N bruteforce_omp
+```

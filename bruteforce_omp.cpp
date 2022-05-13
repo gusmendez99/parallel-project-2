@@ -1,3 +1,11 @@
+/*
+ ============================================================================
+ Author(s)    : G. Barlas, Gus Mendez, Roberto Figueroa, Michele Benvenuto
+ 
+ Compile      : mpic++ -fopenmp -o bruteforce2 bruteforce2.cpp 
+ ============================================================================
+*/
+
 #include <string.h>
 #include <stdlib.h>
 #include <rpc/des_crypt.h>

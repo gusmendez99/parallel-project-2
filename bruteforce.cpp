@@ -1,7 +1,10 @@
-//bruteforce.c
-//nota: el key usado es bastante pequenio, cuando sea random speedup variara
-
-
+/*
+ ============================================================================
+ Author(s)    : Miguel
+ 
+ Compile      : mpic++ -o bruteforce bruteforce.cpp 
+ ============================================================================
+*/
 
 #include <string.h>
 #include <stdio.h>
@@ -63,8 +66,8 @@ int tryKey(long key, char *ciph, int len){
 unsigned char cipher[] = {108, 245, 65, 63, 125, 200, 150, 66, 17, 170, 207, 170, 34, 31, 70, 215, 0};
 int main(int argc, char *argv[]){ //char **argv
   int N, id;
-  long upper = (1L <<56); //upper bound DES keys 2^56
-  long mylower, myupper;
+  long long upper = (1LL <<56); //upper bound DES keys 2^56
+  long long mylower, myupper;
   MPI_Status st;
   MPI_Request req;
   int flag;
