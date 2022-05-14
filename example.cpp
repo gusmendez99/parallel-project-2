@@ -2,7 +2,7 @@
  ============================================================================
  Author(s)    : G. Barlas, Gus Mendez, Roberto Figueroa, Michele Benvenuto
  
- Compile      : g++ -o example example.cpp 
+ Compile      : g++ -fpermissive -o example example.cpp 
  ============================================================================
 */
 
@@ -15,21 +15,59 @@
 #define PLAINTEXT_FILEPATH "./input/plain.txt"
 #define KEY_FILEPATH "./input/key.txt"
 
+void decrypt(long key, char *ciph, int len){
+    //set parity of key and do decrypt
+    int result;
+    long k = 0;
+    for(int i=0; i<8; ++i){
+        key <<= 1;
+        k += (key & (0xFE << i*8));
+    }
+    des_setparity((char *)&k);  //el poder del casteo y &
+    result = ecb_crypt((char *)&k, (char *) ciph, len, DES_DECRYPT);
+    if(DES_FAILED(result) || strcmp(ciph, "") == 0) {
+        if(strcmp(ciph, "") == 0) {
+            printf("*** Null Output ***\n");
+        } else {
+            printf("*** Decryption Error ***\n");
+        }
+    }
+}
+
+void encrypt(long key, char *ciph, int len){
+    //set parity of key and do decrypt
+    int result;
+    long k = 0;
+    for(int i=0; i<8; ++i){
+        key <<= 1;
+        k += (key & (0xFE << i*8));
+    }
+    des_setparity((char *)&k);  //el poder del casteo y &
+    result = ecb_crypt((char *)&k, (char *) ciph, len, DES_ENCRYPT);
+    if (DES_FAILED(result) || strcmp(ciph, "") == 0) {
+        if(strcmp(ciph, "") == 0) {
+            printf("*** Null Output ***\n");
+        } else {
+            printf("*** Encryption Error ***\n");
+        }
+    } 
+}
+
 int main(void) {
     char *key = NULL;
-    char *pass = NULL;
+    char *plaintext = NULL;
     size_t size = 0;
-    int buffsize, result;
+    int buffsize, orig_buffsize;
     
     /* Open plain txt in read-only mode */
     FILE *fp = fopen(PLAINTEXT_FILEPATH, "r");
     fseek(fp, 0, SEEK_END);
     size = ftell(fp);
     rewind(fp);
-    pass = malloc((size + 1) * sizeof(*pass));
-    fread(pass, size, 1, fp);
-    pass[size] = '\0';
-    printf("Plain: %s\n", pass);
+    plaintext = malloc((size + 1) * sizeof(*plaintext));
+    fread(plaintext, size, 1, fp);
+    plaintext[size] = '\0';
+    printf("Plain: %s\n", plaintext);
     
     size = 0;
     
@@ -43,57 +81,27 @@ int main(void) {
     key[size] = '\0';
     printf("Key: %s\n", key);
 
-    des_setparity(key);
+    /* Encrypt plaintext, result is in encbuff */
+    buffsize, orig_buffsize = strlen(plaintext);
+    if(orig_buffsize % 8 >0)
+        buffsize = ((orig_buffsize / 8)+1)*8;
+    printf("buffsize is %d\n",buffsize);
+    
+    encrypt(key, (char *)plaintext, buffsize);
+    printf("Encrypted: %s\n", plaintext);
+    
 
-    /* Encrypt pass, result is in encbuff */
-    buffsize = strlen(pass);
-    printf("buffsize is %d\n",buffsize);
-    /* Add to pass to ensure size is divisable by 8. */
-    while (buffsize % 8 && buffsize<BUFFSIZE) {
-        pass[buffsize++] = '\0';
-    }
-    printf("pass is %s\n",pass);
-    printf("buffsize is %d\n",buffsize);
-    printf("Encrypted: ");
-    result = ecb_crypt(key, pass, buffsize, DES_ENCRYPT | DES_SW);
-    if (DES_FAILED(result) || strcmp(pass, "") == 0) {
-        if(strcmp(pass, "") == 0) {
-            printf("*** Null Output ***\n");
-        } else {
-            printf("*** Encryption Error ***\n");
-        }
-    } else {
-        printf("%s\n", pass);
-        printf("%X\n", pass);
-	printf("%x\n", pass);
-    }
+    printf("{");
+    for(int i=0; i< buffsize;i++)
+        printf("%d, ", (int)plaintext[i]);
+    printf("}\n");
 
     /* Decrypt encbuff, result is in decbuff */
-
-    /* FIXME: Decryption doesn't work:
-            Encrypted: ,ï¿½7&ï¿½ï¿½ï¿½8
-            Decrypted: *** Decryption Error ***
-     */
-    buffsize = strlen(pass);
+    buffsize = strlen(plaintext);
     printf("buffsize is %d\n",buffsize);
-    /* Add to pass to ensure size is divisable by 8. */
-    while (buffsize % 8 && buffsize<BUFFSIZE) {
-        pass[buffsize++] = '\0';
-    }
-    printf("buffsize is %d\n",buffsize);
-    printf("Decrypted: ");
-    //keeping the same initialization vector for decrypting, encrypt has altered ivectemp
     
-    result = ecb_crypt(key, pass, buffsize, DES_DECRYPT | DES_SW);
-    if(DES_FAILED(result) || strcmp(pass, "") == 0) {
-        if(strcmp(pass, "") == 0) {
-            printf("*** Null Output ***\n");
-        } else {
-            printf("*** Decryption Error ***\n");
-        }
-    } else {
-        printf("%s\n",pass);
-    }
+    decrypt(key, (char *)plaintext, buffsize);
+    printf("Decrypted: %s\n",plaintext);
 
     return 0;
 }
