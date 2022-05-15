@@ -93,3 +93,17 @@ Run
 ```console
 ./mpirun -np N bruteforce_omp
 ```
+
+### Extra: Clusters
+
+This is our second time doing clusters with multiple RPI...
+
+![clusters](https://github.com/gusmendez99/parallel-project-2/blob/main/images/clusters.png?raw=true)
+
+
+
+|                     	| **RPI 4 B (2 cores)** 	| **RPI 4 B with RPI 1** 	|
+|---------------------	|:----------------------:	|:----------------------:	|
+|       **AVG Time** 	|        0.6068708s       	|        1.1612702s       	|
+|     **Speedup**     	|          5331          	|          2786          	|
+
